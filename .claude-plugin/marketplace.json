@@ -1,0 +1,14 @@
+{
+  "name": "agent-references",
+  "owner": {
+    "name": "Brian Schroeder",
+    "url": "https://github.com/brianschroeder"
+  },
+  "plugins": [
+    {
+      "name": "agent-references",
+      "source": ".",
+      "description": "Repo-level references index for Claude Code: a git-tracked map of where the surrounding context lives, that agents read before going looking and fix as they go."
+    }
+  ]
+}

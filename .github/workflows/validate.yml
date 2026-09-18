@@ -1,0 +1,32 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate plugin manifests are valid JSON
+        run: |
+          python3 -c "import json; json.load(open('.claude-plugin/plugin.json'))"
+          python3 -c "import json; json.load(open('.claude-plugin/marketplace.json'))"
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          set -e
+          FILE=skills/references/SKILL.md
+          head -1 "$FILE" | grep -q '^---$'
+          grep -q '^name:' "$FILE"
+          grep -q '^description:' "$FILE"
+
+      - name: Validate bundled assets are present
+        run: |
+          set -e
+          test -f skills/references/assets/references.template.md
+          test -f skills/references/assets/claude-md-block.md
+          grep -q '<!-- references:start -->' skills/references/assets/claude-md-block.md
+          grep -q '<!-- references:end -->' skills/references/assets/claude-md-block.md
